@@ -1,12 +1,11 @@
-sensor:
   - platform: rest
-    unique_id: energyzero_gasprices_rest
+    unique_id: energyzero_prices_rest
     name: Gasprijs per uur 
     resource: https://api.energyzero.nl/v1/energyprices
     scan_interval: 900
     unit_of_measurement: "EUR/m³"
     value_template: >
-        {{value_json.Prices[now().hour].price}}
+        {{value_json.Prices[(now()+timedelta(hours=-1)).hour].price}}
     params:
       fromDate: >
         {{(now().strftime('%Y-%m-%d')|as_datetime).isoformat()}}Z
@@ -26,7 +25,7 @@ sensor:
     scan_interval: 900
     unit_of_measurement: "EUR/kWh"
     value_template: >
-        {{value_json.Prices[now().hour].price}}
+        {{value_json.Prices[(now()+timedelta(hours=-1)).hour].price}}
     params:
       fromDate: >
         {{(now().strftime('%Y-%m-%d')|as_datetime).isoformat()}}Z
